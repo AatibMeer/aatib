@@ -1,6 +1,6 @@
 (function() {
     // URL of the Catchpoint script
-    var catchpointScriptUrl = 'https://g.3gl.net/jp/11601/v4.0.5/InitialLoadScript.js';
+    var catchpointScriptUrl = 'https://g.3gl.net/jp/11601/vlatest/InitialLoadScript.js';
 
     // Create a <script> element to dynamically load the Catchpoint tag
     var script = document.createElement('script');
