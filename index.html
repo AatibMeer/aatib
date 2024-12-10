@@ -37,7 +37,6 @@
     </script>
 
     <!-- Injected RUM tag code -->
-
     <script defer src='https://aatibmeer.github.io/aatib/tag.js'></script>
 </head>
 <body>
@@ -53,34 +52,21 @@
     </form>
 
     <script>
-        async function handleLogin(event) {
+        function handleLogin(event) {
             event.preventDefault(); // Prevent form submission
+
+            // Predefined credentials for basic authentication
+            const validUsername = 'admin';
+            const validPassword = 'password123';
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            const url = 'YOUR_API_ENDPOINT'; // Replace with your API endpoint
-
-            try {
-                // Make a fetch request with Basic Auth
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Basic ' + btoa(`${username}:${password}`)
-                    }
-                });
-
-                if (response.ok) {
-                    // Redirect on success
-                    alert('Login successful!');
-                    window.location.href = 'welcome.html';
-                } else {
-                    // Handle errors
-                    alert('Invalid credentials or authentication failed.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again later.');
+            if (username === validUsername && password === validPassword) {
+                alert('Login successful!');
+                window.location.href = 'welcome.html';
+            } else {
+                alert('Invalid credentials. Please try again.');
             }
         }
     </script>
