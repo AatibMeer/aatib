@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Basic Auth Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,15 +31,14 @@
             background-color: #0056b3;
         }
     </style>
-    <Script>
-                  window.catchpointWebtagSiteID = 11569;
-                  window.catchpointWebtagVersion = 'latest';
-
-    </Script>
+    <script>
+        window.catchpointWebtagSiteID = 11569;
+        window.catchpointWebtagVersion = 'latest';
+    </script>
 
     <!-- Injected RUM tag code -->
 
-  <script defer src='https://aatibmeer.github.io/aatib/tag.js'></script>
+    <script defer src='https://aatibmeer.github.io/aatib/tag.js'></script>
 </head>
 <body>
     <h1>Login</h1>
@@ -54,21 +53,34 @@
     </form>
 
     <script>
-        function handleLogin(event) {
+        async function handleLogin(event) {
             event.preventDefault(); // Prevent form submission
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // Sample credentials
-            const validUsername = '+919886627651';
-            const validPassword = '+1234+abxy'; // Change this to your preferred password
+            const url = 'YOUR_API_ENDPOINT'; // Replace with your API endpoint
 
-            if (username === validUsername && password === validPassword) {
-                // Redirect to the welcome page
-                window.location.href = 'welcome.html';
-            } else {
-                alert('Invalid credentials. Please try again.');
+            try {
+                // Make a fetch request with Basic Auth
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+                    }
+                });
+
+                if (response.ok) {
+                    // Redirect on success
+                    alert('Login successful!');
+                    window.location.href = 'welcome.html';
+                } else {
+                    // Handle errors
+                    alert('Invalid credentials or authentication failed.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
             }
         }
     </script>
