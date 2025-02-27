@@ -33,20 +33,29 @@
     </style>
    
     <script defer src='https://g.3gl.net/jp/11569/v4.0.5/InitialLoadScript.js'></script>
-</head>
-<body>
-    <h1>Login</h1>
-    <form onsubmit="return handleLogin(event);">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <input type="submit" value="Login">
-    </form>
-
     <script>
+        // Function to get query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            const queryParams = {};
+            for (const [key, value] of params.entries()) {
+                queryParams[key] = value;
+            }
+            return queryParams;
+        }
+
+        // Function to handle query parameters
+        function handleQueryParams() {
+            const queryParams = getQueryParams();
+            if (queryParams.anystring) {
+                // Do something with the query parameter 'anystring'
+                document.getElementById('query-result').innerText = `Query Parameter: ${queryParams.anystring}`;
+            }
+        }
+
+        // Call the function to handle query parameters on page load
+        window.onload = handleQueryParams;
+
         function handleLogin(event) {
             event.preventDefault(); // Prevent form submission
 
@@ -65,5 +74,19 @@
             }
         }
     </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form onsubmit="return handleLogin(event);">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <input type="submit" value="Login">
+    </form>
+
+    <p id="query-result"></p>
 </body>
 </html>
