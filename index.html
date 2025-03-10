@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Auth Login</title>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,11 +31,19 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
+        .image-container {
+            margin: 20px 0;
+        }
+        .image-container img {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
     </style>
    
     <script defer src='https://g.3gl.net/jp/11569/v4.0.5/InitialLoadScript.js'></script>
     <script>
-        // Function to get query parameters
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             const queryParams = {};
@@ -44,22 +53,18 @@
             return queryParams;
         }
 
-        // Function to handle query parameters
         function handleQueryParams() {
             const queryParams = getQueryParams();
             if (queryParams.anystring) {
-                // Do something with the query parameter 'anystring'
                 document.getElementById('query-result').innerText = `Query Parameter: ${queryParams.anystring}`;
             }
         }
 
-        // Call the function to handle query parameters on page load
         window.onload = handleQueryParams;
 
         function handleLogin(event) {
-            event.preventDefault(); // Prevent form submission
+            event.preventDefault();
 
-            // Predefined credentials for basic authentication
             const validUsername = 'aaaaa';
             const validPassword = 'aaaaa';
 
@@ -76,16 +81,28 @@
     </script>
 </head>
 <body>
+    <div class="image-container">
+        <img src="https://source.unsplash.com/random/300x200" alt="Random Image 1">
+    </div>
+
     <h1>Login</h1>
     <form onsubmit="return handleLogin(event);">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
+
+        <div class="image-container">
+            <img src="https://source.unsplash.com/random/301x201" alt="Random Image 2">
+        </div>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
         <input type="submit" value="Login">
     </form>
+
+    <div class="image-container">
+        <img src="https://source.unsplash.com/random/302x202" alt="Random Image 3">
+    </div>
 
     <p id="query-result"></p>
 </body>
