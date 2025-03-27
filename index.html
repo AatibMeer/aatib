@@ -60,7 +60,15 @@
             }
         }
 
-        window.onload = handleQueryParams;
+        window.onload = function() {
+            handleQueryParams();
+
+            if (window.RProfiler) {
+                window.RProfiler.addInfo('tracepoint', 'abc', 123);
+            } else {
+                console.error('RProfiler is not defined');
+            }
+        };
 
         function handleLogin(event) {
             event.preventDefault();
