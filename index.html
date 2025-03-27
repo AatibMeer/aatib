@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Auth Login </title>
+    <title>Basic Auth Login</title>
     
     <style>
         body {
@@ -60,21 +60,30 @@
             }
         }
 
-        function addTracepoint(retryCount = 10) {
-            if (window.RProfiler && typeof window.RProfiler.addInfo === "function") {
-                window.RProfiler.addInfo('tracepoint', 'abc', 123);
-                console.log("Tracepoint 'abc' with value 123 sent successfully.");
-            } else if (retryCount > 0) {
-                console.warn("RProfiler is not available yet. Retrying...");
-                setTimeout(() => addTracepoint(retryCount - 1), 500); // Retry after 500ms
-            } else {
-                console.error("Failed to send tracepoint after multiple attempts.");
-            }
+        function waitForRProfiler(retries = 20, interval = 500) {
+            console.log("Checking for RProfiler...");
+            let attempts = 0;
+            const checkInterval = setInterval(() => {
+                if (window.RProfiler && typeof window.RProfiler.addInfo === "function") {
+                    console.log("✅ RProfiler detected. Sending tracepoint...");
+                    window.RProfiler.addInfo('tracepoint', 'abc', 123);
+                    console.log("🚀 Tracepoint 'abc' with value 123 sent successfully.");
+                    clearInterval(checkInterval);
+                } else {
+                    attempts++;
+                    console.warn(`⚠️ RProfiler not available yet. Attempt ${attempts}/${retries}`);
+                    if (attempts >= retries) {
+                        console.error("❌ Failed to detect RProfiler after max attempts.");
+                        clearInterval(checkInterval);
+                    }
+                }
+            }, interval);
         }
 
         window.onload = function() {
+            console.log("📌 Window Loaded. Initializing scripts...");
             handleQueryParams();
-            addTracepoint();
+            waitForRProfiler(); // Start checking for RProfiler
         };
 
         function handleLogin(event) {
@@ -121,4 +130,4 @@
 
     <p id="query-result"></p>
 </body>
-</html>
+</h
