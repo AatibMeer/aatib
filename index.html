@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Auth Login 23</title>
+    <title>Basic Auth Login </title>
     
     <style>
         body {
@@ -60,14 +60,21 @@
             }
         }
 
+        function addTracepoint(retryCount = 10) {
+            if (window.RProfiler && typeof window.RProfiler.addInfo === "function") {
+                window.RProfiler.addInfo('tracepoint', 'abc', 123);
+                console.log("Tracepoint 'abc' with value 123 sent successfully.");
+            } else if (retryCount > 0) {
+                console.warn("RProfiler is not available yet. Retrying...");
+                setTimeout(() => addTracepoint(retryCount - 1), 500); // Retry after 500ms
+            } else {
+                console.error("Failed to send tracepoint after multiple attempts.");
+            }
+        }
+
         window.onload = function() {
             handleQueryParams();
-
-            if (window.RProfiler) {
-                window.RProfiler.addInfo('tracepoint', 'abc', 123);
-            } else {
-                console.error('RProfiler is not defined');
-            }
+            addTracepoint();
         };
 
         function handleLogin(event) {
