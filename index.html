@@ -111,15 +111,6 @@
 </head>
 <body>
 	
-<script>
-		if(window.RProfiler){
-				window.RProfiler.addInfo('tracepoint', 'locale', digitalData.user.profile.profileInfo.language);
-				window.RProfiler.addInfo('tracepoint', 'ckey', getCookie("psd-correlation-key"));
-				window.RProfiler.addInfo('tracepoint', 'category', digitalData.page.pageInfo.pageName );
-				window.RProfiler.addInfo('tracepoint', 'loggedin', digitalData.user.profile.profileInfo.attributes.visitorType);
-		}
-
-			</script>
 	
     <div class="image-container">
         <img src="https://picsum.photos/300/200?random=1" alt="Random Image 1">
@@ -146,4 +137,3 @@
 
     <p id="query-result"></p>
 </body>
-</h
