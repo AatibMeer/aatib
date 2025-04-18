@@ -41,21 +41,33 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
-   
-   <script defer src='https://g.3gl.net/jp/11569/latest/InitialLoadScript.js'></script>
-  
-    <script>
-    window.RProfiler?.addInfo('tracepoint', 'userloggedin', 'A760827');
-    window.RProfiler?.addInfo('tracepoint', 'userid', 'A760827');
-  </script>
-    
-    <script>
-        window.onload = function() {
-            console.log("📌 Window Loaded. Initializing scripts...");
-            handleQueryParams();
-            waitForRProfiler(); // Start checking for RProfiler
-        };
 
+    <!-- Load the InitialLoadScript -->
+    <script defer src="https://g.3gl.net/jp/11569/latest/InitialLoadScript.js"></script>
+
+    <!-- Tracepoint script that waits for RProfiler -->
+    <script>
+        function waitForRProfilerAndSendTracepoints(retries = 50) {
+            if (window.RProfiler && typeof window.RProfiler.addInfo === 'function') {
+                console.log("✅ RProfiler is ready. Sending tracepoints...");
+                window.RProfiler.addInfo('tracepoint', 'userloggedin', 'A760827');
+                window.RProfiler.addInfo('tracepoint', 'userid', 'A760827');
+            } else if (retries > 0) {
+                console.log("⏳ Waiting for RProfiler...");
+                setTimeout(() => waitForRProfilerAndSendTracepoints(retries - 1), 200);
+            } else {
+                console.warn("❌ RProfiler not available after retries");
+            }
+        }
+
+        window.onload = function () {
+            console.log("📌 Window Loaded. Initializing RProfiler...");
+            waitForRProfilerAndSendTracepoints();
+        };
+    </script>
+
+    <!-- Login handler -->
+    <script>
         function handleLogin(event) {
             event.preventDefault();
 
@@ -75,18 +87,18 @@
     </script>
 </head>
 <body>
-  
-<h1>Login</h1>
-    <form onsubmit="return handleLogin(event);">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
 
-        
-<label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+    <h1>Login</h1>
 
-        <input type="submit" value="Login">
-    </form>
+    <form onsubmit="return handleLogin(event);">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <input type="submit" value="Login">
+    </form>
 
 </body>
 </html>
