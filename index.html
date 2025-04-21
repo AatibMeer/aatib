@@ -1,8 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Auth Login RUM 121</title>
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,11 +47,27 @@
 
     <!-- Tracepoint script that waits for RProfiler -->
     <script>
+        function getNextTraceId() {
+            const key = 'tracepointCounter';
+            let current = parseInt(localStorage.getItem(key), 10);
+
+            if (isNaN(current)) {
+                current = 1;
+            } else {
+                current += 1;
+            }
+
+            localStorage.setItem(key, current);
+            return current.toString().padStart(6, '0'); // Format like "000001"
+        }
+
         function waitForRProfilerAndSendTracepoints(retries = 50) {
+            const traceId = getNextTraceId();
+
             if (window.RProfiler && typeof window.RProfiler.addInfo === 'function') {
                 console.log("✅ RProfiler is ready. Sending tracepoints...");
-                window.RProfiler.addInfo('tracepoint', 'userloggedin', 'A760827');
-                window.RProfiler.addInfo('tracepoint', 'createallocation', 'A760827');
+                window.RProfiler.addInfo('tracepoint', 'userloggedin', traceId);
+                window.RProfiler.addInfo('tracepoint', 'createallocation', traceId);
             } else if (retries > 0) {
                 console.log("⏳ Waiting for RProfiler...");
                 setTimeout(() => waitForRProfilerAndSendTracepoints(retries - 1), 200);
