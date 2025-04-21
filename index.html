@@ -49,7 +49,7 @@
             if (window.RProfiler && typeof window.RProfiler.addInfo === 'function') {
                 console.log("✅ RProfiler is ready. Sending tracepoints...");
                 window.RProfiler.addInfo('tracepoint', 'userloggedin', 'A760827');
-                window.RProfiler.addInfo('tracepoint', 'userid', 'A760827');
+                window.RProfiler.addInfo('tracepoint', 'createallocation', 'A760827');
             } else if (retries > 0) {
                 console.log("⏳ Waiting for RProfiler...");
                 setTimeout(() => waitForRProfilerAndSendTracepoints(retries - 1), 200);
