@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Trigger 404 Error</title>
- <script defer src="https://g.3gl.net/jp/11569/latest/InitialLoadScript.js"></script>
-Report-To: {"group":"network-errors","max_age":2592000,"endpoints":\[{"url":"https://r.3gl.net/hawklogserver/app id/re.p"}\]}
-NEL: {"report_to":"network-errors","max_age":2592000,"success_fraction":1.0,"failure_fraction":1.0, "include_subdomains": true}
+  <script defer src="https://g.3gl.net/jp/11569/latest/InitialLoadScript.js"></script>
 </head>
 <body>
   <h1>This page will trigger a 404 error</h1>
-  <p>Check the Network tab or RUM logs to observe the missing resource request.</p>
+  <p>Check the Network tab or Catchpoint RUM Explorer to observe the missing resource request.</p>
 
   <!-- Intentionally missing image to cause 404 -->
   <img src="missing-image.jpg" alt="This image does not exist">
 
-  <!-- Optional: Trigger missing JS file (404) -->
+  <!-- Trigger missing JS file -->
   <script src="not-found-script.js"></script>
 </body>
 </html>
