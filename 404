@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Trigger 404 Error</title>
+ <script defer src="https://g.3gl.net/jp/11569/latest/InitialLoadScript.js"></script>
+Report-To: {"group":"network-errors","max_age":2592000,"endpoints":\[{"url":"https://r.3gl.net/hawklogserver/app id/re.p"}\]}
+NEL: {"report_to":"network-errors","max_age":2592000,"success_fraction":1.0,"failure_fraction":1.0, "include_subdomains": true}
 </head>
 <body>
   <h1>This page will trigger a 404 error</h1>
