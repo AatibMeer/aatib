@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trigger 404 Error</title>
+</head>
+<body>
+  <h1>This page will trigger a 404 error</h1>
+  <p>Check the Network tab or RUM logs to observe the missing resource request.</p>
+
+  <!-- Intentionally missing image to cause 404 -->
+  <img src="missing-image.jpg" alt="This image does not exist">
+
+  <!-- Optional: Trigger missing JS file (404) -->
+  <script src="not-found-script.js"></script>
+</body>
+</html>
