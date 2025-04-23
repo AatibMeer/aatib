@@ -12,7 +12,6 @@
   <!-- Intentionally missing image to cause 404 -->
   <img src="missing-image.jpg" alt="This image does not exist">
 
-  <!-- Trigger missing JS file -->
-  <script src="not-found-script.js"></script>
+ 
 </body>
 </html>
