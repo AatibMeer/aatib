@@ -79,6 +79,16 @@
         window.onload = function () {
             console.log("📌 Window Loaded. Initializing RProfiler...");
             waitForRProfilerAndSendTracepoints();
+
+            // 1. ReferenceError - Undefined variable
+            console.log(nonExistentVariable); 
+
+            // 2. TypeError - Invalid function call
+            var num = 5;
+            num(); 
+
+            // 3. SyntaxError - Invalid JavaScript code
+            eval('var a == 5'); 
         };
     </script>
 
