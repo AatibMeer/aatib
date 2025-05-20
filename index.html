@@ -1,130 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Auth Login RUM 121</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Basic Auth Login RUM 121</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-        }
-        form {
-            display: inline-block;
-            text-align: left;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .image-container {
-            margin: 20px 0;
-        }
-        .image-container img {
-            width: 300px;
-            height: 200px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-    </style>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    form {
+      display: inline-block;
+      text-align: left;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .image-container {
+      margin: 20px 0;
+    }
+    .image-container img {
+      width: 300px;
+      height: 200px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 
-    <!-- Load the InitialLoadScript -->
-    <script defer src="https://g.3gl.net/jp/11569/latest/InitialLoadScript.js"></script>
-    <a href="404.html" target="_blank">Click here to trigger 404</a>
-    <!-- Tracepoint script that waits for RProfiler -->
-    <script>
-        function getNextTraceId() {
-            const key = 'tracepointCounter';
-            let current = parseInt(localStorage.getItem(key), 10);
+  <!-- Load the InitialLoadScript -->
+  <script defer src="https://g.3gl.net/jp/11569/latest/InitialLoadScript.js"></script>
+  <a href="404.html" target="_blank">Click here to trigger 404</a>
 
-            if (isNaN(current)) {
-                current = 1;
-            } else {
-                current += 1;
-            }
+  <!-- Tracepoint and Fetch logic -->
+  <script>
+    function getNextTraceId() {
+      const key = 'tracepointCounter';
+      let current = parseInt(localStorage.getItem(key), 10);
+      if (isNaN(current)) {
+        current = 1;
+      } else {
+        current += 1;
+      }
+      localStorage.setItem(key, current);
+      return current.toString().padStart(6, '0');
+    }
 
-            localStorage.setItem(key, current);
-            return current.toString().padStart(6, '0'); // Format like "000001"
-        }
+    function waitForRProfilerAndSendTracepoints(retries = 50) {
+      const traceId = getNextTraceId();
+      if (window.RProfiler && typeof window.RProfiler.addInfo === 'function') {
+        console.log("✅ RProfiler is ready. Sending tracepoints...");
+        window.RProfiler.addInfo('tracepoint', 'userloggedin', traceId);
+        window.RProfiler.addInfo('tracepoint', 'createallocation', traceId);
+      } else if (retries > 0) {
+        console.log("⏳ Waiting for RProfiler...");
+        setTimeout(() => waitForRProfilerAndSendTracepoints(retries - 1), 200);
+      } else {
+        console.warn("❌ RProfiler not available after retries");
+      }
+    }
 
-        function waitForRProfilerAndSendTracepoints(retries = 50) {
-            const traceId = getNextTraceId();
+    window.onload = function () {
+      console.log("📌 Window Loaded. Initializing RProfiler...");
+      waitForRProfilerAndSendTracepoints();
 
-            if (window.RProfiler && typeof window.RProfiler.addInfo === 'function') {
-                console.log("✅ RProfiler is ready. Sending tracepoints...");
-                window.RProfiler.addInfo('tracepoint', 'userloggedin', traceId);
-                window.RProfiler.addInfo('tracepoint', 'createallocation', traceId);
-            } else if (retries > 0) {
-                console.log("⏳ Waiting for RProfiler...");
-                setTimeout(() => waitForRProfilerAndSendTracepoints(retries - 1), 200);
-            } else {
-                console.warn("❌ RProfiler not available after retries");
-            }
-        }
+      // Intentionally causing JS errors for testing
+      try { console.log(nonExistentVariable); } catch (e) { console.error(e); }
+      try { var num = 5; num(); } catch (e) { console.error(e); }
+      try { eval('var a == 5'); } catch (e) { console.error(e); }
 
-        window.onload = function () {
-            console.log("📌 Window Loaded. Initializing RProfiler...");
-            waitForRProfilerAndSendTracepoints();
+      // ✅ Trigger a fetch request (visible in waterfall)
+      fetch('https://httpbin.org/status/418')
+        .then(response => {
+          console.log("🚀 Fetch complete:", response.status);
+        })
+        .catch(error => {
+          console.error("❌ Fetch failed:", error);
+        });
+    };
+  </script>
 
-            // 1. ReferenceError - Undefined variable
-            console.log(nonExistentVariable); 
+  <!-- Login handler -->
+  <script>
+    function handleLogin(event) {
+      event.preventDefault();
+      const validUsername = 'aaaaa';
+      const validPassword = 'aaaaa';
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
 
-            // 2. TypeError - Invalid function call
-            var num = 5;
-            num(); 
-
-            // 3. SyntaxError - Invalid JavaScript code
-            eval('var a == 5'); 
-        };
-    </script>
-
-    <!-- Login handler -->
-    <script>
-        function handleLogin(event) {
-            event.preventDefault();
-
-            const validUsername = 'aaaaa';
-            const validPassword = 'aaaaa';
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === validUsername && password === validPassword) {
-                alert('Login successful!');
-                window.location.href = 'Welcome.html';
-            } else {
-                alert('Invalid credentials. Please try again.');
-            }
-        }
-    </script>
+      if (username === validUsername && password === validPassword) {
+        alert('Login successful!');
+        window.location.href = 'Welcome.html';
+      } else {
+        alert('Invalid credentials. Please try again.');
+      }
+    }
+  </script>
 </head>
 <body>
 
-    <h1>Login</h1>
+  <h1>Login</h1>
 
-    <form onsubmit="return handleLogin(event);">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+  <form onsubmit="return handleLogin(event);">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
 
-        <input type="submit" value="Login">
-    </form>
+    <input type="submit" value="Login">
+  </form>
 
 </body>
 </html>
