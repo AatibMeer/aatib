@@ -66,7 +66,7 @@
         console.log("✅ RProfiler is ready. Sending tracepoints...");
         window.RProfiler.addInfo('tracepoint', 'userloggedin', traceId);
         window.RProfiler.addInfo('tracepoint', 'createallocation', traceId);
-         window.RProfiler.addInfo('indicator', 'gptload', 12345678976554334);
+         window.RProfiler.addInfo('indicator', 'gptload', '12345678976554334');
       } else if (retries > 0) {
         console.log("⏳ Waiting for RProfiler...");
         setTimeout(() => waitForRProfilerAndSendTracepoints(retries - 1), 200);
