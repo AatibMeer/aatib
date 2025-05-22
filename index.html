@@ -47,6 +47,7 @@
   <a href="404.html" target="_blank">Click here to trigger 404</a>
 
   <!-- Tracepoint and Fetch logic -->
+  <script>          window.RProfiler.addInfo('indicator', 'gptload', 12345678976554334);   </script>
   <script>
     function getNextTraceId() {
       const key = 'tracepointCounter';
@@ -66,7 +67,7 @@
         console.log("✅ RProfiler is ready. Sending tracepoints...");
         window.RProfiler.addInfo('tracepoint', 'userloggedin', traceId);
         window.RProfiler.addInfo('tracepoint', 'createallocation', traceId);
-         window.RProfiler.addInfo('indicator', 'gptload', '12345678976554334');
+         
       } else if (retries > 0) {
         console.log("⏳ Waiting for RProfiler...");
         setTimeout(() => waitForRProfilerAndSendTracepoints(retries - 1), 200);
